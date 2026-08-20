@@ -1,0 +1,21 @@
+# Credentials and local rclone state
+*accesskeys*.csv
+*credentials*.csv
+rclone.conf
+credentials/
+secrets/
+.env
+.env.*
+
+# Runtime data
+*.log
+oss-cache/
+cache/
+
+# Local and generated files
+*.zip
+*.tmp
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
