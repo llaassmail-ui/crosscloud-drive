@@ -1,6 +1,8 @@
 # CrossCloud Drive
 
-`CrossCloud Drive` mounts object storage as a Windows drive for Cloud PCs and regular Windows devices. V2 initially supports Alibaba Cloud International OSS and uses PowerShell, rclone, WinFsp, and Windows Task Scheduler.
+`CrossCloud Drive` mounts multi-cloud object storage as a Windows drive for Cloud PCs and regular Windows devices. The current version supports Alibaba Cloud International OSS and uses PowerShell, rclone, WinFsp, and Windows Task Scheduler. Future providers are planned for Amazon S3, S3-compatible storage, and Google Cloud Storage through the same provider architecture.
+
+The repository name `crosscloud-drive` is intentionally provider-neutral. Current OSS, RAM, and endpoint documentation refers to the first implemented provider: Alibaba Cloud International OSS.
 
 ## Current capabilities
 
@@ -15,6 +17,15 @@
 - Batch generation of RAM prefix policies and administrator full-bucket object policies.
 
 Each Windows user manages one CrossCloud connection. The tool does not take over or terminate rclone processes owned by other software or Windows users. The provider boundary is ready for future Amazon S3, S3-compatible, or GCS providers, but V2 does not implement them yet.
+
+## Provider Status
+
+| Provider | Status | Notes |
+|---|---|---|
+| Alibaba Cloud International OSS | Supported | Current GUI, CLI, RAM policy scripts, and docs cover this provider. |
+| Amazon S3 | Planned | The provider boundary is ready, but implementation is not included yet. |
+| S3-compatible storage | Planned | Future support can reuse the S3 parameter model for MinIO, Cloudflare R2, and similar services. |
+| Google Cloud Storage | Planned | Planned as a separate provider. |
 
 ## Quick start
 
@@ -37,7 +48,7 @@ Guides:
 - [English user guide](docs/User-Guide.md)
 - [English administrator guide](docs/Administrator-Guide.md)
 
-## RAM policies
+## Alibaba OSS / RAM Policies
 
 Use one RAM user per employee and restrict object access to a prefix such as `users/<user>/`. Use a full-bucket object policy only for an administrator or NAS account. Never use the Alibaba Cloud root account AccessKey.
 
@@ -60,9 +71,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\create-oss-ram
 
 Alibaba Cloud CLI must already be installed and configured with RAM administration permissions. The generated CSV contains plaintext Secrets. Store it in a password manager, remove it securely after configuration, and never commit it.
 
-## Object storage boundaries
+## Object Storage Boundaries
 
-OSS is not NTFS. Folders are object-name prefixes; an empty folder can be represented by a directory marker. Directory caching, file locks, random writes, and renames may differ from a local disk. Deletes, overwrites, and versioning can also leave historical storage. Stop and local removal only handle local tasks, processes, remotes, settings, and cache; they do not delete cloud objects.
+Object storage is not NTFS. Folders are usually object-name prefixes; an empty folder can be represented by a directory marker. Directory caching, file locks, random writes, and renames may differ from a local disk. Deletes, overwrites, and versioning can also leave historical storage. Stop and local removal only handle local tasks, processes, remotes, settings, and cache; they do not delete cloud objects.
 
 `--vfs-cache-max-size` is a cleanup target, not a hard disk quota. Uploading or in-use files can temporarily exceed it, and low system-drive space can make writes fail.
 

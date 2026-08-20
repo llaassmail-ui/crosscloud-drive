@@ -1,6 +1,8 @@
 # 跨域云盘
 
-`CrossCloud Drive` 是一个面向 Windows 云电脑和普通 Windows 设备的 OSS 对象存储挂载工具。V2 首期支持阿里云国际版 OSS，使用 PowerShell、rclone、WinFsp 和 Windows 任务计划程序，将一个 Bucket 或指定前缀挂载为盘符。
+`CrossCloud Drive` 是一个面向 Windows 云电脑和普通 Windows 设备的多云对象存储挂载工具。当前版本支持阿里云国际版 OSS，使用 PowerShell、rclone、WinFsp 和 Windows 任务计划程序，将一个 Bucket 或指定前缀挂载为盘符；后续计划在同一 Provider 架构下增加 Amazon S3、S3 兼容存储和 Google Cloud Storage。
+
+仓库名 `crosscloud-drive` 面向多云场景，不绑定某一个云厂商。当前代码中的 OSS、RAM 和 Endpoint 说明均对应首个 Provider：Alibaba Cloud International OSS。
 
 ## 当前能力
 
@@ -14,6 +16,15 @@
 - RAM 前缀隔离策略和管理员全桶对象读写策略批量生成。
 
 V2 每个 Windows 用户只管理一个 CrossCloud 连接；不会接管或结束其他软件、其他 Windows 用户的 rclone 进程。后续可以在 Provider 边界增加 Amazon S3、S3 兼容存储或 GCS，但首期不包含这些服务。
+
+## Provider 状态
+
+| Provider | 状态 | 说明 |
+|---|---|---|
+| Alibaba Cloud International OSS | 已支持 | 当前 GUI、CLI、RAM 策略脚本和文档覆盖此 Provider。 |
+| Amazon S3 | 计划中 | Provider 边界已预留，尚未实现。 |
+| S3 兼容存储 | 计划中 | 后续可复用 S3 参数模型接入 MinIO、Cloudflare R2 等服务。 |
+| Google Cloud Storage | 计划中 | 后续作为独立 Provider 接入。 |
 
 ## 快速开始
 
@@ -36,7 +47,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\oss-mount-gui.
 - [English User Guide](docs/User-Guide.md)
 - [English Administrator Guide](docs/Administrator-Guide.md)
 
-## RAM 权限
+## Alibaba OSS / RAM 权限
 
 普通员工使用独立 RAM 用户，并把对象权限限制到 `users/<user>/` 这类前缀。管理员或 NAS 账号才使用全桶对象读写策略。不要使用阿里云主账号 AccessKey。
 
@@ -61,7 +72,7 @@ Alibaba Cloud CLI 需要预先安装并配置有 RAM 管理权限的管理员身
 
 ## 对象存储边界
 
-OSS 不是 NTFS。文件夹是对象名前缀，空文件夹可能表现为目录标记；目录缓存、文件锁、随机写入和重命名行为可能与本地磁盘不同。删除、覆盖和版本控制也可能继续占用历史版本存储空间。工具的停止和本机移除只处理本机任务、进程、remote、配置和缓存，不删除 OSS 云端对象。
+对象存储不是 NTFS。文件夹通常是对象名前缀，空文件夹可能表现为目录标记；目录缓存、文件锁、随机写入和重命名行为可能与本地磁盘不同。删除、覆盖和版本控制也可能继续占用历史版本存储空间。工具的停止和本机移除只处理本机任务、进程、remote、配置和缓存，不删除云端对象。
 
 `--vfs-cache-max-size` 是 rclone 的清理目标，不是硬性磁盘配额。上传中或仍被占用的文件可能让缓存短时间超过设置值；系统盘剩余空间不足时，保存和上传可能失败。
 
