@@ -46,6 +46,7 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\oss-mount-gui.
 - [中文管理员部署指南](docs/管理员部署指南.md)
 - [English User Guide](docs/User-Guide.md)
 - [English Administrator Guide](docs/Administrator-Guide.md)
+- [Roadmap](docs/ROADMAP.md)
 
 ## Alibaba OSS / RAM 权限
 

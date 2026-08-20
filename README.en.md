@@ -47,6 +47,7 @@ Guides:
 - [Chinese administrator guide](docs/管理员部署指南.md)
 - [English user guide](docs/User-Guide.md)
 - [English administrator guide](docs/Administrator-Guide.md)
+- [Roadmap](docs/ROADMAP.md)
 
 ## Alibaba OSS / RAM Policies
 
