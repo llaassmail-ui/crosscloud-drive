@@ -28,6 +28,10 @@ V2 每个 Windows 用户只管理一个 CrossCloud 连接；不会接管或结�
 
 ## 快速开始
 
+普通用户建议从 GitHub Releases 下载 `CrossCloudDrive-<version>.zip`，解压后双击 `CrossCloudDrive.exe`。如果 Windows SmartScreen 提示风险，请确认下载来源是本仓库 Release，并核对 `SHA256SUMS.txt`。
+
+从源码运行时：
+
 1. 将整个项目目录复制到目标 Windows 云电脑。GUI 依赖 `scripts` 下的模块、Provider 和语言文件，不能只复制单个 `.ps1` 文件。
 2. 双击 `scripts\start-oss-mount-gui.vbs`。这个入口会隐藏 PowerShell 启动窗口；`.cmd` 仅作为兼容入口保留。
 3. 第一次使用，在“连接”页安装 rclone 和 WinFsp。
@@ -86,6 +90,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Test-ReleaseRe
 该脚本会执行 PowerShell 语法检查、全部本地测试和公开发布敏感信息扫描。字段名、策略动作名和扫描规则本身不代表真实凭据；发现匹配结果后仍需人工核对上下文。
 
 不要提交 AccessKey、Secret、凭据 CSV、`rclone.conf`、日志、缓存、真实 Bucket、公司内部路径、截图或内部人员信息。`.gitignore` 已覆盖常见凭据和运行时文件，但发布前仍需人工复核。
+
+生成本地 Release 产物：
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Build-Release.ps1 -Version "0.1.0"
+```
+
+生成的 `dist/` 目录、exe、zip 和校验文件只用于 GitHub Release，不提交到 git。
 
 ## 许可证
 

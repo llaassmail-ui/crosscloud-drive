@@ -12,8 +12,22 @@ Use this checklist before publishing CrossCloud Drive to GitHub or attaching a r
 
 ## Release ZIP Contents
 
+Build local release artifacts with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Build-Release.ps1 -Version "0.1.0"
+```
+
+Attach these generated files to GitHub Releases:
+
+- `dist/CrossCloudDrive-<version>.zip`
+- `dist/SHA256SUMS.txt`
+
+Do not commit generated release artifacts to git.
+
 Include:
 
+- `CrossCloudDrive.exe`
 - `README.md`
 - `README.en.md`
 - `LICENSE`
@@ -27,9 +41,11 @@ Exclude:
 
 - `.git/`
 - `.github/` if the ZIP is for end users rather than contributors
+- `dist/`
 - credential CSV files
 - `rclone.conf`
 - logs and caches
+- generated `.exe` files outside the release zip
 - screenshots with private data
 - any locally generated ZIP files
 
@@ -38,6 +54,7 @@ Exclude:
 Before tagging a release, validate on a real Windows desktop or Cloud PC:
 
 - Double-click `scripts\start-oss-mount-gui.vbs` and confirm no startup console remains visible.
+- Double-click `CrossCloudDrive.exe` from the generated release directory and confirm the GUI opens.
 - Check Chinese and English GUI text at normal and high DPI.
 - Install dependency flow, access test, save and connect, stop, reconnect, and remove local connection.
 - Confirm a manual stop does not immediately restart during the same sign-in session.

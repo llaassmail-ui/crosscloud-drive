@@ -9,7 +9,7 @@ function Write-Step {
 }
 
 function Get-RepositoryTextFiles {
-    $excludedDirectories = @(".git", ".idea", ".vscode", "cache", "oss-cache", "credentials", "secrets")
+    $excludedDirectories = @(".git", ".idea", ".vscode", "cache", "oss-cache", "credentials", "secrets", "dist")
     $excludedExtensions = @(".png", ".jpg", ".jpeg", ".gif", ".zip", ".7z", ".exe", ".dll", ".msi", ".log", ".tmp")
 
     Get-ChildItem -LiteralPath $repoRoot -Recurse -File -Force | Where-Object {

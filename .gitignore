@@ -13,8 +13,12 @@ oss-cache/
 cache/
 
 # Local and generated files
+dist/
+*.exe
+*.msi
 *.zip
 *.tmp
+SHA256SUMS.txt
 Thumbs.db
 Desktop.ini
 .idea/

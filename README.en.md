@@ -29,6 +29,10 @@ Each Windows user manages one CrossCloud connection. The tool does not take over
 
 ## Quick start
 
+For regular users, download `CrossCloudDrive-<version>.zip` from GitHub Releases, extract it, and double-click `CrossCloudDrive.exe`. If Windows SmartScreen warns about the unsigned exe, verify that the file came from this repository's Release page and compare it with `SHA256SUMS.txt`.
+
+To run from source:
+
 1. Copy the entire project directory to the target Windows Cloud PC. The GUI loads modules, providers, and locale files from `scripts`; do not copy only one `.ps1` file.
 2. Double-click `scripts\start-oss-mount-gui.vbs`. This launcher hides the PowerShell startup window; `.cmd` remains as a compatibility shim.
 3. On first use, install rclone and WinFsp from the Connection page.
@@ -87,6 +91,14 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Test-ReleaseRe
 The script runs PowerShell syntax checks, all local tests, and a public-release sensitive-data scan. Field names, policy action names, and scan rules are not credentials. Review any match in context before release.
 
 Do not commit AccessKeys, Secrets, credential CSV files, `rclone.conf`, logs, caches, real bucket names, internal paths, screenshots, or internal personnel information. The `.gitignore` covers common credential and runtime files, but review the release contents manually.
+
+Build local release artifacts:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\Build-Release.ps1 -Version "0.1.0"
+```
+
+Generated `dist/` contents, exe files, zip files, and checksum files are for GitHub Releases only and must not be committed to git.
 
 ## License
 
